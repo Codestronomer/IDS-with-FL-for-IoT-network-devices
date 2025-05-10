@@ -1,25 +1,23 @@
-import time
+import os
 import json
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import xgboost as xgb
 from typing import List, Tuple
-import matplotlib.pyplot as plt
 from collections import Counter
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.metrics import accuracy_score, classification_report, log_loss, precision_score, f1_score, recall_score
-from flwr.client import Client, ClientApp, NumPyClient
-from flwr.common import Metrics, Context
-from flwr.server import ServerApp, ServerConfig, ServerAppComponents
 from flwr.server.strategy import FedAvg
+from flwr.common import Metrics, Context
 from flwr.simulation import run_simulation
+from flwr.client import ClientApp, NumPyClient
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from flwr.server import ServerApp, ServerConfig, ServerAppComponents
 
-df = pd.read_csv(
-        '/Users/macbookpro/Downloads/Edge IIoTset/Edge-IIoTset dataset/Selected dataset for ML and DL/ML-EdgeIIoT-dataset.csv',
-        low_memory=False
-    )
+DS_FILE_PATH = os.environ.get('IIOT_DATASET_FILE_PATH');
+df = pd.read_csv(DS_FILE_PATH, low_memory=False)
+
+df.head()
 
 # Replace infinite values with NaNs
 df.replace([np.inf, -np.inf], np.nan, inplace=True)
@@ -140,8 +138,8 @@ class XGBoostClient(NumPyClient):
             self.model.fit(self.X_train, self.y_train)
             self.is_model_fit = True
         else:
-            # If already fit, we could optionally do additional training here
-            # self.model.fit(self.X_train, self.y_train, xgb_model=self.model)
+            # do additional training
+            self.model.fit(self.X_train, self.y_train, xgb_model=self.model)
             pass
             
         # Return current model's parameters
@@ -163,10 +161,9 @@ class XGBoostClient(NumPyClient):
             
             # Ensure the predictions are in the right format
             if len(y_pred.shape) > 1 and y_pred.shape[1] > 1:
-                # This is a multi-class format, get the class with highest probability
+                # get the class with highest probability from multi class format
                 y_pred_classes = np.argmax(y_pred, axis=1)
             else:
-                # This is already in the right format
                 y_pred_classes = y_pred
                 
             try:
