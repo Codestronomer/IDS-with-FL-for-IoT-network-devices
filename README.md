@@ -89,8 +89,7 @@ python main.py
 - **Communication Overhead:** See *Figure 4.6*
 
 ## 🖼️ Visualizations
-- `figure_4_/Users/macbookpro/Documents/dev/intrusion_detection_system/figure_4_5_accuracy.png5_accuracy.png`: Accuracy of each client  
-/Users/macbookpro/Documents/dev/intrusion_detection_system/figure_4_5_accuracy.png
+- `figure_4_/figure_4_5  _accuracy.png`: Accuracy of each client  
 - `figure_4_6_communication.png`: Bytes exchanged by each client  
 - `figure_4_7_training_time.png`: Local training duration in seconds  
 
