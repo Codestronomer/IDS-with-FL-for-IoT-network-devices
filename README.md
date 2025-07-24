@@ -1,3 +1,111 @@
+# 🚨 Federated Anomaly Detection in IIoT using XGBoost
+
+A federated learning system that leverages client-local training of XGBoost models to detect cyber-attacks in Industrial Internet of Things (IIoT) networks without sharing raw data.
+
+---
+
+## 📌 Overview
+
+This project aims to build a privacy-preserving **federated anomaly detection** system for IIoT environments. Traditional centralized models pose data privacy concerns. Here, **federated learning** is applied using **Flower**, allowing each client to train locally using an **XGBoost classifier**, while model evaluation and metrics are aggregated at the server level.
+
+### Goals:
+- Detect various IIoT cyber-attacks using a distributed dataset.
+- Evaluate communication cost, training time, and model accuracy per client.
+- Address class imbalance and simulate a real-world federated setting.
+
+---
+
+## 📂 Project Structure
+```
+📁 project_root/
+│
+├── 📄 main.py                  # Entry point to run the federated simulation (Flower NumPyClient definition using XGBoost Custom Flower server with non-aggregated strategy)
+├── 📄 config.py                # Hyperparameters and constants
+├── 📁 notebooks/
+│   ├── preprocess.ipynb      # Data cleaning, encoding, and merging.
+|   └── IDS with FL for edge devices.ipynb # Visualization, Feature selection, Model training, FL simulations and experiments
+├── 📁 datasets/
+│   ├── merged_edge_iiotset.csv        # Preprocessed dataset
+|   └── edge_iiotset.parquet
+├── 📁 outputs/
+│   ├── figure_4_5_accuracy.png
+│   ├── figure_4_6_communication.png
+│   └── figure_4_7_training_time.png
+├── 📄 requirements.txt         # Python dependencies
+└── README.md                   # Project documentation
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Codestronomer/IDS-with-FL-for-IoT-network-devices.git
+cd IDS-with-FL-for-IoT-network-devices
+```
+
+### 2. Create Python Environment
+```bash
+python -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+```
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+Make sure you have:
+-	Python 3.10 or higher
+- ray for parallel execution
+- xgboost, scikit-learn, pandas, matplotlib, flwr
+
+### 4. How to run 🚀
+Federated learning simulation
+```bash
+python main.py
+```
+
+## 📊 Data Overview
+
+- **Dataset**: IIoT Dataset containing labeled normal and attack traffic.  
+- **Attributes**: 63 columns including timestamps, protocols, payloads, and flags.
+
+### 🔄 Preprocessing Steps
+
+- Dropped irrelevant or incomplete features  
+- Handled missing values and infinite values  
+- Encoded categorical variables (e.g., HTTP method, MQTT types)  
+- Normalized features using `StandardScaler`  
+- Balanced label distributions across clients
+
+---
+# 📈 Results
+
+## 📌 Evaluation Metrics
+- **Accuracy (per round):** >99.7%
+- **Loss:** ~0.011 consistently  
+- **Training Time per Client:** See *Figure 4.7*
+- **Communication Overhead:** See *Figure 4.6*
+
+## 🖼️ Visualizations
+- `figure_4_5_accuracy.png`: Accuracy of each client  
+- `figure_4_6_communication.png`: Bytes exchanged by each client  
+- `figure_4_7_training_time.png`: Local training duration in seconds  
+
+---
+
+## 🧠 Model Architecture
+- **Model:** XGBoost (`XGBClassifier`)
+- **Objective:** `binary:logistic`
+- **Tree Method:** `hist`
+- **Custom Parameters:**
+  - `max_depth=5`
+  - `learning_rate=0.2`
+  - `gamma=1`
+  - `scale_pos_weight` is dynamically set per client to handle class imbalance
+
+
 ### 📊 Distributed Training History
 
 | **Round** | **Loss**       | **Accuracy**         |
@@ -13,16 +121,66 @@
 | 9         | 0.0127546837   | 0.9982257144667638   |
 | 10        | 0.0111649670   | 0.9983523447401774   |
 
+# 📦 Deployment
 
-# 📆 6-Week Project Timeline: Federated XGBoost-Based Intrusion Detection with Edge-IIoTset
+**Not deployed in production.** For API-based deployment:
 
-## 🗂 Dataset Used
+- Serialize trained XGBoost models with `.save_model()`
+- Wrap in a FastAPI or Flask service
+- Expose `/predict` and `/health` endpoints
+
+---
+
+# 💡 Tips / Gotchas
+
+- Ensure `ray.init()` does **not enable dashboard** on Windows to avoid errors
+- Always **normalize features** for XGBoost consistency
+- **Stratified data split** is critical to retain label balance across clients
+- Check **client logs** carefully for anomalies or dropped evaluations
+- Avoid **over-tuning XGBoost params** on highly imbalanced datasets; use `scale_pos_weight`
+
+---
+
+# 🤝 Contributing
+
+We welcome community contributions!
+
+1. Fork the repository  
+2. Create a feature branch:  
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3.  Commit Changes
+   ```bash
+   git commit -m "Add new feature"
+   ```
+4.  Push to Github
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+5.	Open a Pull Request
+For bug reports or feature suggestions, please open an issue.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+See LICENSE file for details.
+
+## References
+	•	[Flower Documentation](https://flower.ai/docs/)
+	•	[XGBoost Documentation](https://xgboost.readthedocs.io/en/stable/)
+	•	[Ray for Distributed Python](https://xgboost.readthedocs.io/en/stable/)
+	•	Dataset Paper: [Edge-IIoTset Cyber Security Dataset of IoT & IIoT](https://www.kaggle.com/datasets/mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot/data?status=pending&suggestionBundleId=483)
+
+## 📆 Project Timeline: Federated XGBoost-Based Intrusion Detection with Edge-IIoTset
+
+### 🗂 Dataset Used
 - **Name:** Edge-IIoTset
 - **Description:** A comprehensive dataset for evaluating intrusion detection in Industrial IoT systems, containing benign and malicious traffic records across multiple attack types.
 
 ---
 
-## 📅 Timeline Breakdown
+### 📅 Timeline Breakdown
 
 | **Week**   | **Activities**                                                                                                                                             | **Deliverables**                                                                                   |
 |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
