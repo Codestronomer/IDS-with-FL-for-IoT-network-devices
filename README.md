@@ -89,7 +89,8 @@ python main.py
 - **Communication Overhead:** See *Figure 4.6*
 
 ## 🖼️ Visualizations
-- `figure_4_5_accuracy.png`: Accuracy of each client  
+- `figure_4_/Users/macbookpro/Documents/dev/intrusion_detection_system/figure_4_5_accuracy.png5_accuracy.png`: Accuracy of each client  
+/Users/macbookpro/Documents/dev/intrusion_detection_system/figure_4_5_accuracy.png
 - `figure_4_6_communication.png`: Bytes exchanged by each client  
 - `figure_4_7_training_time.png`: Local training duration in seconds  
 
@@ -167,12 +168,12 @@ This project is licensed under the MIT License.
 See LICENSE file for details.
 
 ## References
-	•	[Flower Documentation](https://flower.ai/docs/)
-	•	[XGBoost Documentation](https://xgboost.readthedocs.io/en/stable/)
-	•	[Ray for Distributed Python](https://xgboost.readthedocs.io/en/stable/)
-	•	Dataset Paper: [Edge-IIoTset Cyber Security Dataset of IoT & IIoT](https://www.kaggle.com/datasets/mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot/data?status=pending&suggestionBundleId=483)
+ - [Flower Documentation](https://flower.ai/docs/)
+ - [XGBoost Documentation](https://xgboost.readthedocs.io/en/stable/)
+ - [Ray for Distributed Python](https://xgboost.readthedocs.io/en/stable/)
+ - Dataset Paper: [Edge-IIoTset Cyber Security Dataset of IoT & IIoT](https://www.kaggle.com/datasets/mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot/data?status=pending&suggestionBundleId=483)
 
-## 📆 Project Timeline: Federated XGBoost-Based Intrusion Detection with Edge-IIoTset
+## 📆 Project Timeline: Federated Learning Intrusion Detection system with Edge-IIoTset
 
 ### 🗂 Dataset Used
 - **Name:** Edge-IIoTset
